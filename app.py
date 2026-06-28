@@ -2,188 +2,222 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-# 1. إعدادات الصفحة بنظام العرض العريض (Wide) لتقليل السكرول
+# 1. إعدادات الصفحة الاحترافية بنظام الـ Wide
 st.set_page_config(
-    page_title="CoreHR | Advanced Dynamic Suite",
-    page_icon="⚡",
+    page_title="CoreHR | Quantum Dark Suite",
+    page_icon="🌌",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. الألوان الزاهية والعصرية (Vibrant & High-Contrast Corporate UI)
+# 2. هندسة الـ Dark Mode الفخم باستخدام الـ CSS المخصص
 st.markdown("""
 <style>
-    /* تحسين الخلفية العامة والخطوط */
+    /* تغيير خلفية التطبيق بالكامل للون الأسود الكربوني الفاخر */
     .stApp {
-        background-color: #f0f4f8;
+        background-color: #0b0f19;
+        color: #e2e8f0;
         font-family: 'Inter', system-ui, sans-serif;
     }
     
-    /* القائمة الجانبية المودرن */
+    /* ضبط نصوص العناوين الافتراضية لتبدو متناسقة */
+    h1, h2, h3, h4, p, label, [data-testid="stMarkdownContainer"] p {
+        color: #e2e8f0 !important;
+    }
+    
+    /* الـ Sidebar الغامق مع تباين النيون */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%) !important;
+        background: linear-gradient(180deg, #070a13 0%, #0f172a 100%) !important;
+        border-right: 1px solid #1e293b;
     }
-    [data-testid="stSidebar"] * { color: #ffffff !important; }
+    [data-testid="stSidebar"] * { color: #94a3b8 !important; }
     
-    /* كروت إحصائيات زاهية وبارزة (Vibrant KPI Cards) */
-    .vibrant-card {
-        background: #ffffff;
-        padding: 20px;
+    /* كروت إحصائيات زاهية وبارزة في خلفية غامقة (Neon Cyber Cards) */
+    .neon-card {
+        background: #111827;
+        padding: 22px;
         border-radius: 16px;
-        box-shadow: 0 10px 25px rgba(31, 38, 135, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-left: 6px solid #6366f1; /* Indigo Neon */
-        transition: transform 0.2s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid #1e293b;
+        border-left: 6px solid #6366f1; /* خط نيون نيلي */
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        margin-bottom: 15px;
     }
-    .vibrant-card:hover {
+    .neon-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(31, 38, 135, 0.08);
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
     }
-    .card-label { color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
-    .card-num { color: #0f172a; font-size: 1.8rem; font-weight: 700; margin-top: 5px; }
+    .card-label { color: #94a3b8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .card-num { color: #ffffff; font-size: 2rem; font-weight: 700; margin-top: 6px; }
     
-    /* أزرار مخصصة ملونة وزاهية */
+    /* تجميل المدخلات (Inputs) لتناسب المود المظلم */
+    input, select, textarea, div[data-baseweb="select"] {
+        background-color: #1f2937 !important;
+        color: #ffffff !important;
+        border: 1px solid #374151 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* أزرار النظام الملونة والزاهية جداً للتفاعل والسحب */
     .stButton>button {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+        color: white !important;
         border-radius: 10px !important;
         padding: 10px 24px !important;
         font-weight: bold !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
         transition: all 0.2s ease !important;
     }
+    .stButton>button:hover {
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%) !important;
+        box-shadow: 0 0 18px rgba(99, 102, 241, 0.5) !important;
+    }
     
-    /* تنسيق خاص لزر الـ Fire / الرفد ليكون بلون تحذيري زاهي */
+    /* صياعة الـ Fire Button: كود مخصص لزر الرفد بلون أحمر نيون متوهج */
     div.stButton > button:has(div:contains("Terminate")) {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+        background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
         color: white !important;
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+        box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4) !important;
+    }
+    div.stButton > button:has(div:contains("Terminate")):hover {
+        box-shadow: 0 0 22px rgba(239, 68, 68, 0.6) !important;
+    }
+    
+    /* تجميل الـ Dataframes والجداول بالـ Dark Mode */
+    [data-testid="stDataFrame"] {
+        background: #111827 !important;
+        border: 1px solid #1e293b !important;
+        border-radius: 12px !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. نظام الحماية الذكي (Session State)
+# 3. نظام الحماية الذكي للتطبيقات الكبرى (Enterprise Security Session)
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
 if not st.session_state['authenticated']:
-    st.markdown("<h2 style='text-align: center; color: #1e1b4b; margin-top: 120px;'>🔒 CoreHR Enterprise Security</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #ffffff; margin-top: 120px;'>🔒 CoreHR Quantum Portal</h2>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
         with st.form("Login"):
-            user = st.text_input("Corporate ID")
+            user = st.text_input("Corporate User ID")
             pas = st.text_input("Access Token", type="password")
-            if st.form_submit_button("Verify & Grant Entry"):
+            if st.form_submit_button("Grant Secure Access"):
                 if user == "admin" and pas == "texas2026":
                     st.session_state['authenticated'] = True
                     st.rerun()
-                else: st.error("Access Denied.")
+                else: st.error("Authentication failed. Invalid cryptographic credentials.")
     st.stop()
 
-# 4. بناء البيانات الحية وتجهيز الحسابات التلقائية (Deductions & Allowances)
+# 4. بناء مخزن البيانات الداخلي وحساب الـ Deductions والـ Allowances تلقائياً
 if 'employees' not in st.session_state:
     st.session_state['employees'] = pd.DataFrame([
-        {'ID': 'HR-001', 'Name': 'John Doe', 'Dept': 'Engineering', 'Base Salary': 8000, 'Allowances': 1200, 'Deductions': 300, 'Tax %': 10, 'Status': 'Active'},
-        {'ID': 'HR-002', 'Name': 'Jane Smith', 'Dept': 'Marketing', 'Base Salary': 6500, 'Allowances': 800, 'Deductions': 150, 'Tax %': 8, 'Status': 'Active'},
-        {'ID': 'HR-003', 'Name': 'Carlos Ramos', 'Dept': 'Operations', 'Base Salary': 5000, 'Allowances': 600, 'Deductions': 400, 'Tax %': 5, 'Status': 'Active'},
-        {'ID': 'HR-004', 'Name': 'Aisha Khan', 'Dept': 'Finance', 'Base Salary': 7500, 'Allowances': 1000, 'Deductions': 0, 'Tax %': 10, 'Status': 'Active'}
+        {'ID': 'HR-001', 'Name': 'John Doe', 'Dept': 'Engineering', 'Base Salary': 9500, 'Allowances': 1500, 'Deductions': 400, 'Tax %': 12, 'Status': 'Active'},
+        {'ID': 'HR-002', 'Name': 'Jane Smith', 'Dept': 'Marketing', 'Base Salary': 7200, 'Allowances': 900, 'Deductions': 200, 'Tax %': 10, 'Status': 'Active'},
+        {'ID': 'HR-003', 'Name': 'Carlos Ramos', 'Dept': 'Operations', 'Base Salary': 5800, 'Allowances': 700, 'Deductions': 500, 'Tax %': 8, 'Status': 'Active'},
+        {'ID': 'HR-004', 'Name': 'Aisha Khan', 'Dept': 'Finance', 'Base Salary': 8800, 'Allowances': 1100, 'Deductions': 0, 'Tax %': 12, 'Status': 'Active'}
     ])
 
 df = st.session_state['employees']
 
-# حساب صافي المرتبات بشكل فوري (Net Salary Formula)
-# Net = (Base + Allowances - Deductions) * (1 - Tax/100)
+# معالجة وصياغة صافي الرواتب فورياً (Automated Payroll Logic)
 df['Net Salary ($)'] = (df['Base Salary'] + df['Allowances'] - df['Deductions']) * (1 - df['Tax %'] / 100)
 
-# القائمة الجانبية الشيك
-st.sidebar.markdown("### ⚡ CoreHR Navigation")
-menu = st.sidebar.radio("Switch View", ["📊 HR Insights & Payroll", "🔥 Termination Hub (Fire System)"])
+# القائمة الجانبية للتنقل الذكي
+st.sidebar.markdown("### ⚡ Navigation Hub")
+menu = st.sidebar.radio("Switch View", ["📊 Live Core Metrics & Payroll", "🔥 Executive Termination (Fire System)"])
 
 # ----------------- VIEW 1: DASHBOARD & PAYROLL -----------------
-if menu == "📊 HR Insights & Payroll":
-    st.markdown("<h1 style='color: #1e1b4b;'>Workforce & Payroll Intelligence</h1>", unsafe_allow_html=True)
+if menu == "📊 Live Core Metrics & Payroll":
+    st.markdown("<h1 style='color: #ffffff;'>Workforce & Payroll Intelligence</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #94a3b8; font-size:14px; margin-bottom: 25px;'>Advanced system metrics updated in real-time.</p>", unsafe_allow_html=True)
     
-    # صف كروت الـ KPIs زاهية الألوان وموزعة عرضياً لتقليل السكرول
+    # توزيع الكروت عرضياً لمنع السكرول المزعج
     kpi1, kpi2, kpi3, kpi4 = st.columns(4)
     with kpi1:
-        st.markdown(f'<div class="vibrant-card"><div class="card-label">Active Headcount</div><div class="card-num">{len(df[df["Status"]=="Active"])}</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="neon-card"><div class="card-label">Active Headcount</div><div class="card-num">{len(df[df["Status"]=="Active"])}</div></div>', unsafe_allow_html=True)
     with kpi2:
-        st.markdown(f'<div class="vibrant-card" style="border-left-color: #10b981;"><div class="card-label">Total Net Payroll</div><div class="card-num">${df[df["Status"]=="Active"]["Net Salary ($)"].sum():,.2f}</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="neon-card" style="border-left-color: #10b981;"><div class="card-label">Total Monthly Payroll</div><div class="card-num">${df[df["Status"]=="Active"]["Net Salary ($)"].sum():,.2f}</div></div>', unsafe_allow_html=True)
     with kpi3:
-        st.markdown('<div class="vibrant-card" style="border-left-color: #f59e0b;"><div class="card-label">Avg Absence Rate</div><div class="card-num">2.4%</div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="neon-card" style="border-left-color: #f59e0b;"><div class="card-label">Absence Index</div><div class="card-num">1.8%</div></div>', unsafe_allow_html=True)
     with kpi4:
-        st.markdown('<div class="vibrant-card" style="border-left-color: #ec4899;"><div class="card-label">Pending Leave Requests</div><div class="card-num">5 Tasks</div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="neon-card" style="border-left-color: #ec4899;"><div class="card-label">Pending Exit Protocols</div><div class="card-num">' + str(len(df[df["Status"]=="Terminated"])) + ' Archive</div></div>', unsafe_allow_html=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # تقسيم الصفحة لعمودين (شمال ويمين) لإنهاء مشكلة السكرول الكتير
+    # تقسيم الشاشة لعمودين متوازنين (يمين وشمال) لمنع السكرول نهائياً
     col_left, col_right = st.columns([1.8, 1.2])
     
     with col_left:
-        st.markdown("### 👥 Active Employee Ledger (Calculated)")
+        st.markdown("### 👥 Dynamic Employee Ledger")
         st.dataframe(df, use_container_width=True, hide_index=True)
         
-        # تصدير البيانات السريع
+        # ميزة تصدير التقارير الفورية للـ Management
         csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button("📥 Download Financial Report", data=csv, file_name="HR_Financial_Report.csv", mime="text/csv")
+        st.download_button("📥 Export Quantum Ledger to CSV", data=csv, file_name="CoreHR_Quantum_Ledger.csv", mime="text/csv")
 
     with col_right:
-        st.markdown("### 💸 Instant Adjustments (Allowances / Deductions)")
+        st.markdown("### 💸 Quick Adjustments")
         with st.form("Adjustment Form"):
-            target_emp = st.selectbox("Select Employee", df[df['Status']=='Active']['Name'])
-            adj_type = st.radio("Type", ["Allowance (زيادة/بدل)", "Deduction (خصم/جزاء)"])
-            amount = st.number_input("Amount ($)", min_value=0, step=50)
+            target_emp = st.selectbox("Choose Employee", df[df['Status']=='Active']['Name'])
+            adj_type = st.radio("Financial Vector", ["Add Allowance (بدلات/مكافأة)", "Apply Deduction (خصومات/جزاءات)"])
+            amount = st.number_input("Amount ($)", min_value=0, step=100, value=100)
             
-            if st.form_submit_button("Apply Live & Recalculate"):
-                if adj_type == "Allowance (زيادة/بدل)":
+            if st.form_submit_button("Inject to Ledger & Recalculate"):
+                if adj_type == "Add Allowance (بدلات/مكافأة)":
                     st.session_state['employees'].loc[st.session_state['employees']['Name'] == target_emp, 'Allowances'] += amount
                 else:
                     st.session_state['employees'].loc[st.session_state['employees']['Name'] == target_emp, 'Deductions'] += amount
-                st.success(f"Successfully processed {adj_type} for {target_emp}!")
+                st.success(f"Financial adjustment applied for {target_emp}!")
                 st.rerun()
 
-# ----------------- VIEW 2: FIRE SYSTEM (TERMINATION) -----------------
-elif menu == "🔥 Termination Hub (Fire System)":
-    st.markdown("<h1 style='color: #7f1d1d;'>Corporate Termination Hub</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #64748b;'>Offboarding dashboard for processing employee exit contracts, severance pay, and immediate revoking of system access.</p>", unsafe_allow_html=True)
+# ----------------- VIEW 2: FIRE SYSTEM (TERMINATION HUB) -----------------
+elif menu == "🔥 Executive Termination (Fire System)":
+    st.markdown("<h1 style='color: #ef4444;'>Corporate Termination Core</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #94a3b8; font-size:14px; margin-bottom: 25px;'>Immediate contract settlement, automated severance pay computation, and access revocation.</p>", unsafe_allow_html=True)
     
-    col_fire1, col_fire2 = st.columns([1.5, 1.5])
+    col_fire1, col_fire2 = st.columns([1.4, 1.6])
     
     with col_fire1:
-        st.markdown("### ⚠️ Initiate Offboarding Protocol")
+        st.markdown("### ⚠️ Execute Offboarding")
         active_emps = df[df['Status'] == 'Active']
         
         if active_emps.empty:
-            st.info("No active employees found in ledger.")
+            st.info("No active workforce profiles detected.")
         else:
-            with st.form("Termination Protocol"):
-                fire_emp = st.selectbox("Employee to Terminate", active_emps['Name'])
-                reason = st.selectbox("Reason for Offboarding", ["Voluntary Resignation", "Performance Issues", "Redundancy / Restructuring", "Policy Violation"])
-                months_served = st.number_input("Months Served (For Severance Calculation)", min_value=1, value=12)
+            with st.form("Termination Core Form"):
+                fire_emp = st.selectbox("Select Target Employee", active_emps['Name'])
+                reason = st.selectbox("Legal Termination Clause", ["Performance Non-Compliance", "Corporate Restructuring", "Policy & Security Violation", "Voluntary Departure"])
+                tenure_months = st.number_input("Total Tenure (Months Served)", min_value=1, value=24)
                 
-                # صياعة البيزنس: حساب مكافأة نهاية الخدمة تلقائياً (نصف شهر عن كل سنة مثلاً)
+                # صياعة الحساب: حساب مستحقات نهاية الخدمة بدقة (نصف شهر عن كل سنة خدمة)
                 base_sal = df[df['Name'] == fire_emp]['Base Salary'].values[0]
-                calculated_severance = (base_sal / 2) * (months_served / 12)
+                severance_package = (base_sal / 2) * (tenure_months / 12)
                 
-                st.markdown(f"**Estimated Severance Pay (مكافأة نهاية الخدمة):** `${calculated_severance:,.2f}`")
+                st.markdown(f"<p style='color: #ef4444; font-weight: bold; font-size: 16px;'>Computed Severance Package: ${severance_package:,.2f}</p>", unsafe_allow_html=True)
                 
-                # زرار تحذيري زاهي للرفد وفصل الموظف
-                submit_fire = st.form_submit_button("🚨 Execute Termination & Cut Access")
+                # زرار الإعدام الوظيفي بالـ Red Neon Style
+                execute = st.form_submit_button("🚨 Terminate Employee & Revoke Access")
                 
-                if submit_fire:
-                    # تحديث الحالة لـ Terminated وحفظ مكافأة نهاية الخدمة في قاعدة البيانات المؤقتة
+                if execute:
+                    # تحديث الحالة وحفظ الحساب المالي
                     st.session_state['employees'].loc[st.session_state['employees']['Name'] == fire_emp, 'Status'] = 'Terminated'
-                    st.session_state['employees'].loc[st.session_state['employees']['Name'] == fire_emp, 'Base Salary'] = calculated_severance # تحويل حسابه لمستحقاته الأخيرة
-                    st.error(f"Protocol Executed. {fire_emp} has been set to Terminated. Legal severance of ${calculated_severance:.2f} finalized.")
+                    st.session_state['employees'].loc[st.session_state['employees']['Name'] == fire_emp, 'Base Salary'] = severance_package
+                    st.error(f"Access Revoked. {fire_emp} has been moved to offboarded archive with a final settlement of ${severance_package:,.2f}.")
                     st.rerun()
 
     with col_fire2:
-        st.markdown("### 📄 Offboarded / Terminated Records")
+        st.markdown("### 📂 Offboarded Audit Trail (الموظفين المفصولين)")
         terminated_df = df[df['Status'] == 'Terminated']
         if terminated_df.empty:
-            st.info("No terminated records for this period.")
+            st.info("No active termination protocols recorded in this cycle.")
         else:
             st.dataframe(terminated_df[['ID', 'Name', 'Dept', 'Status']], use_container_width=True, hide_index=True)
 
-# زر تسجيل الخروج
+# زرار تسجيل الخروج الفاخر
 st.sidebar.markdown("---")
-if st.sidebar.button("🔒 Secure Logout"):
+if st.sidebar.button("🔒 Terminate Session"):
     st.session_state['authenticated'] = False
     st.rerun()
