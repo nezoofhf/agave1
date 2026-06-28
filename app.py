@@ -1,56 +1,56 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+import datetime
 
-# 1. إعدادات الصفحة الاحترافية بنظام الـ Wide
+# 1. Page Configuration
 st.set_page_config(
-    page_title="CoreHR | Quantum Dark Suite",
+    page_title="CoreHR | Quantum Enterprise Suite",
     page_icon="🌌",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. هندسة الـ Dark Mode الفخم باستخدام الـ CSS المخصص
+# 2. Ultra Dark Cyberpunk Theme & Professional UI Layout (100% English)
 st.markdown("""
 <style>
-    /* تغيير خلفية التطبيق بالكامل للون الأسود الكربوني الفاخر */
+    /* Main Background & Core Fonts */
     .stApp {
         background-color: #0b0f19;
         color: #e2e8f0;
         font-family: 'Inter', system-ui, sans-serif;
     }
     
-    /* ضبط نصوص العناوين الافتراضية لتبدو متناسقة */
+    /* Standardizing typography to prevent mismatch */
     h1, h2, h3, h4, p, label, [data-testid="stMarkdownContainer"] p {
         color: #e2e8f0 !important;
     }
     
-    /* الـ Sidebar الغامق مع تباين النيون */
+    /* Elegant Dark Sidebar */
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #070a13 0%, #0f172a 100%) !important;
         border-right: 1px solid #1e293b;
     }
     [data-testid="stSidebar"] * { color: #94a3b8 !important; }
     
-    /* كروت إحصائيات زاهية وبارزة في خلفية غامقة (Neon Cyber Cards) */
+    /* Premium Cyber Neon KPI Cards */
     .neon-card {
         background: #111827;
-        padding: 22px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         border: 1px solid #1e293b;
-        border-left: 6px solid #6366f1; /* خط نيون نيلي */
+        border-left: 6px solid #6366f1;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
     .neon-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
     }
-    .card-label { color: #94a3b8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .card-num { color: #ffffff; font-size: 2rem; font-weight: 700; margin-top: 6px; }
+    .card-label { color: #94a3b8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .card-num { color: #ffffff; font-size: 1.8rem; font-weight: 700; margin-top: 4px; }
     
-    /* تجميل المدخلات (Inputs) لتناسب المود المظلم */
+    /* Modern inputs and select boxes */
     input, select, textarea, div[data-baseweb="select"] {
         background-color: #1f2937 !important;
         color: #ffffff !important;
@@ -58,12 +58,12 @@ st.markdown("""
         border-radius: 8px !important;
     }
     
-    /* أزرار النظام الملونة والزاهية جداً للتفاعل والسحب */
+    /* Vibrant Neon Action Buttons */
     .stButton>button {
         background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
         color: white !important;
-        border-radius: 10px !important;
-        padding: 10px 24px !important;
+        border-radius: 8px !important;
+        padding: 8px 20px !important;
         font-weight: bold !important;
         border: none !important;
         box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
@@ -74,7 +74,7 @@ st.markdown("""
         box-shadow: 0 0 18px rgba(99, 102, 241, 0.5) !important;
     }
     
-    /* صياعة الـ Fire Button: كود مخصص لزر الرفد بلون أحمر نيون متوهج */
+    /* Critical Fire/Termination Button (Glowing Crimson Neon) */
     div.stButton > button:has(div:contains("Terminate")) {
         background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
         color: white !important;
@@ -84,7 +84,7 @@ st.markdown("""
         box-shadow: 0 0 22px rgba(239, 68, 68, 0.6) !important;
     }
     
-    /* تجميل الـ Dataframes والجداول بالـ Dark Mode */
+    /* Table Styling for Dataframes */
     [data-testid="stDataFrame"] {
         background: #111827 !important;
         border: 1px solid #1e293b !important;
@@ -93,131 +93,197 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. نظام الحماية الذكي للتطبيقات الكبرى (Enterprise Security Session)
+# 3. Session Security Authentication (100% Secure)
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
 if not st.session_state['authenticated']:
-    st.markdown("<h2 style='text-align: center; color: #ffffff; margin-top: 120px;'>🔒 CoreHR Quantum Portal</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #ffffff; margin-top: 140px;'>🔒 CoreHR Quantum Portal</h2>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
-        with st.form("Login"):
+        with st.form("Secure Login"):
             user = st.text_input("Corporate User ID")
             pas = st.text_input("Access Token", type="password")
-            if st.form_submit_button("Grant Secure Access"):
+            if st.form_submit_button("Authenticate"):
                 if user == "admin" and pas == "texas2026":
                     st.session_state['authenticated'] = True
                     st.rerun()
-                else: st.error("Authentication failed. Invalid cryptographic credentials.")
+                else:
+                    st.error("Access Denied. Cryptographic key mismatch.")
     st.stop()
 
-# 4. بناء مخزن البيانات الداخلي وحساب الـ Deductions والـ Allowances تلقائياً
+# 4. Global State & Database Mock Init (Budget, Attendance, Employees)
+if 'corporate_budget' not in st.session_state:
+    st.session_state['corporate_budget'] = 50000.0
+
 if 'employees' not in st.session_state:
     st.session_state['employees'] = pd.DataFrame([
-        {'ID': 'HR-001', 'Name': 'John Doe', 'Dept': 'Engineering', 'Base Salary': 9500, 'Allowances': 1500, 'Deductions': 400, 'Tax %': 12, 'Status': 'Active'},
-        {'ID': 'HR-002', 'Name': 'Jane Smith', 'Dept': 'Marketing', 'Base Salary': 7200, 'Allowances': 900, 'Deductions': 200, 'Tax %': 10, 'Status': 'Active'},
-        {'ID': 'HR-003', 'Name': 'Carlos Ramos', 'Dept': 'Operations', 'Base Salary': 5800, 'Allowances': 700, 'Deductions': 500, 'Tax %': 8, 'Status': 'Active'},
-        {'ID': 'HR-004', 'Name': 'Aisha Khan', 'Dept': 'Finance', 'Base Salary': 8800, 'Allowances': 1100, 'Deductions': 0, 'Tax %': 12, 'Status': 'Active'}
+        {'ID': 'HR-001', 'Name': 'John Doe', 'Dept': 'Kitchen', 'Base Salary': 4500.0, 'Bonus': 200.0, 'Deductions': 100.0, 'Performance': 'Excellent', 'Status': 'Active'},
+        {'ID': 'HR-002', 'Name': 'Jane Smith', 'Dept': 'Front Desk', 'Base Salary': 3800.0, 'Bonus': 150.0, 'Deductions': 0.0, 'Performance': 'Good', 'Status': 'Active'},
+        {'ID': 'HR-003', 'Name': 'Carlos Ramos', 'Dept': 'Kitchen', 'Base Salary': 4100.0, 'Bonus': 0.0, 'Deductions': 250.0, 'Performance': 'Needs Improvement', 'Status': 'Active'},
+        {'ID': 'HR-004', 'Name': 'Aisha Khan', 'Dept': 'Management', 'Base Salary': 6000.0, 'Bonus': 500.0, 'Deductions': 0.0, 'Performance': 'Excellent', 'Status': 'Active'}
     ])
+
+if 'attendance_log' not in st.session_state:
+    st.session_state['attendance_log'] = pd.DataFrame(columns=['Date', 'Employee Name', 'Status'])
 
 df = st.session_state['employees']
 
-# معالجة وصياغة صافي الرواتب فورياً (Automated Payroll Logic)
-df['Net Salary ($)'] = (df['Base Salary'] + df['Allowances'] - df['Deductions']) * (1 - df['Tax %'] / 100)
+# Live Calculations: Net Salary = Base + Bonus - Deductions
+df['Net Salary ($)'] = df['Base Salary'] + df['Bonus'] - df['Deductions']
+total_payroll = df[df['Status'] == 'Active']['Net Salary ($)'].sum()
+remaining_budget = st.session_state['corporate_budget'] - total_payroll
 
-# القائمة الجانبية للتنقل الذكي
-st.sidebar.markdown("### ⚡ Navigation Hub")
-menu = st.sidebar.radio("Switch View", ["📊 Live Core Metrics & Payroll", "🔥 Executive Termination (Fire System)"])
-
-# ----------------- VIEW 1: DASHBOARD & PAYROLL -----------------
-if menu == "📊 Live Core Metrics & Payroll":
-    st.markdown("<h1 style='color: #ffffff;'>Workforce & Payroll Intelligence</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #94a3b8; font-size:14px; margin-bottom: 25px;'>Advanced system metrics updated in real-time.</p>", unsafe_allow_html=True)
+# ----------------- SIDEBAR: ATTENDANCE TRACKER & CONFIG -----------------
+st.sidebar.markdown("## 📅 Attendance Log Control")
+with st.sidebar.form("Attendance Form"):
+    log_date = st.date_input("Select Date", datetime.date.today())
+    active_names = df[df['Status'] == 'Active']['Name'].tolist()
+    log_emp = st.selectbox("Select Employee", active_names if active_names else ["None"])
+    log_status = st.radio("Attendance Status", ["Present", "Absent (Unexcused)"])
     
-    # توزيع الكروت عرضياً لمنع السكرول المزعج
+    if st.form_submit_button("Log Attendance Stat"):
+        new_log = pd.DataFrame([{'Date': str(log_date), 'Employee Name': log_emp, 'Status': log_status}])
+        st.session_state['attendance_log'] = pd.concat([st.session_state['attendance_log'], new_log], ignore_index=True)
+        # Auto deduct if unexcused absence as a dynamic feature
+        if log_status == "Absent (Unexcused)":
+            st.session_state['employees'].loc[st.session_state['employees']['Name'] == log_emp, 'Deductions'] += 50.0
+        st.sidebar.success(f"Log updated for {log_emp}")
+        st.rerun()
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("## 📊 Navigation Hub")
+menu = st.sidebar.radio("Switch Framework View", ["💎 Financials & Core Ledger", "🔥 Performance & Exit Hub"])
+
+# ----------------- VIEW 1: FINANCIALS & CORE LEDGER -----------------
+if menu == "💎 Financials & Core Ledger":
+    st.markdown("<h1 style='color: #ffffff;'>Corporate Financials & Ledger Suite</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #94a3b8; font-size:14px; margin-bottom: 20px;'>Complete overview of active operational capital allocations.</p>", unsafe_allow_html=True)
+    
+    # Horizontal KPI Cards Row
     kpi1, kpi2, kpi3, kpi4 = st.columns(4)
     with kpi1:
-        st.markdown(f'<div class="neon-card"><div class="card-label">Active Headcount</div><div class="card-num">{len(df[df["Status"]=="Active"])}</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="neon-card" style="border-left-color: #3b82f6;"><div class="card-label">Total Allocated Budget</div><div class="card-num">${st.session_state["corporate_budget"]:,.2f}</div></div>', unsafe_allow_html=True)
     with kpi2:
-        st.markdown(f'<div class="neon-card" style="border-left-color: #10b981;"><div class="card-label">Total Monthly Payroll</div><div class="card-num">${df[df["Status"]=="Active"]["Net Salary ($)"].sum():,.2f}</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="neon-card" style="border-left-color: #ef4444;"><div class="card-label">Total Net Payroll</div><div class="card-num">${total_payroll:,.2f}</div></div>', unsafe_allow_html=True)
     with kpi3:
-        st.markdown('<div class="neon-card" style="border-left-color: #f59e0b;"><div class="card-label">Absence Index</div><div class="card-num">1.8%</div></div>', unsafe_allow_html=True)
+        budget_color = "#10b981" if remaining_budget >= 0 else "#ef4444"
+        st.markdown(f'<div class="neon-card" style="border-left-color: {budget_color};"><div class="card-label">Remaining Operational Budget</div><div class="card-num">${remaining_budget:,.2f}</div></div>', unsafe_allow_html=True)
     with kpi4:
-        st.markdown('<div class="neon-card" style="border-left-color: #ec4899;"><div class="card-label">Pending Exit Protocols</div><div class="card-num">' + str(len(df[df["Status"]=="Terminated"])) + ' Archive</div></div>', unsafe_allow_html=True)
-    
+        st.markdown(f'<div class="neon-card" style="border-left-color: #f59e0b;"><div class="card-label">Active Headcount</div><div class="card-num">{len(df[df["Status"]=="Active"])}</div></div>', unsafe_allow_html=True)
+        
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # تقسيم الشاشة لعمودين متوازنين (يمين وشمال) لمنع السكرول نهائياً
     col_left, col_right = st.columns([1.8, 1.2])
     
     with col_left:
-        st.markdown("### 👥 Dynamic Employee Ledger")
+        st.markdown("### 👥 Operational Employee Ledger")
         st.dataframe(df, use_container_width=True, hide_index=True)
         
-        # ميزة تصدير التقارير الفورية للـ Management
+        # Export Capabilities
         csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button("📥 Export Quantum Ledger to CSV", data=csv, file_name="CoreHR_Quantum_Ledger.csv", mime="text/csv")
+        st.download_button("📥 Export Ledger Data (CSV)", data=csv, file_name="CoreHR_Financials.csv", mime="text/csv")
+        
+        # Attendance Audit Trail View to display what was logged in the sidebar
+        st.markdown("<br>### 📊 Today's Attendance Audit Trail", unsafe_allow_html=True)
+        if st.session_state['attendance_log'].empty:
+            st.info("No attendance vectors logged for this operational shift.")
+        else:
+            st.dataframe(st.session_state['attendance_log'], use_container_width=True, hide_index=True)
 
     with col_right:
-        st.markdown("### 💸 Quick Adjustments")
-        with st.form("Adjustment Form"):
-            target_emp = st.selectbox("Choose Employee", df[df['Status']=='Active']['Name'])
-            adj_type = st.radio("Financial Vector", ["Add Allowance (بدلات/مكافأة)", "Apply Deduction (خصومات/جزاءات)"])
-            amount = st.number_input("Amount ($)", min_value=0, step=100, value=100)
+        st.markdown("### 💰 Capital Allocation & Adjustments")
+        
+        # Form to alter total budget ceiling
+        with st.form("Budget Form"):
+            st.write("#### Update Global Capital Cap")
+            new_cap = st.number_input("Set Company Budget Allocation ($)", min_value=0.0, value=st.session_state['corporate_budget'], step=1000.0)
+            if st.form_submit_button("Modify Capital Ceilings"):
+                st.session_state['corporate_budget'] = new_cap
+                st.success("Global corporate budget updated successfully.")
+                st.rerun()
+                
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Manual Bonus and Deductions System
+        with st.form("Manual Adjustments Form"):
+            st.write("#### Manual Compensations & Deductions")
+            target_emp = st.selectbox("Select Target Account", df[df['Status']=='Active']['Name'])
+            action_type = st.radio("Financial Action Vector", ["Apply Manual Bonus", "Inject Penalties / Deduction"])
+            amount = st.number_input("Transaction Value ($)", min_value=0.0, step=50.0, value=100.0)
             
-            if st.form_submit_button("Inject to Ledger & Recalculate"):
-                if adj_type == "Add Allowance (بدلات/مكافأة)":
-                    st.session_state['employees'].loc[st.session_state['employees']['Name'] == target_emp, 'Allowances'] += amount
+            if st.form_submit_button("Authorize Financial Ledger Entry"):
+                if action_type == "Apply Manual Bonus":
+                    st.session_state['employees'].loc[st.session_state['employees']['Name'] == target_emp, 'Bonus'] += amount
                 else:
                     st.session_state['employees'].loc[st.session_state['employees']['Name'] == target_emp, 'Deductions'] += amount
-                st.success(f"Financial adjustment applied for {target_emp}!")
+                st.success(f"Successfully processed transaction for {target_emp}")
                 st.rerun()
 
-# ----------------- VIEW 2: FIRE SYSTEM (TERMINATION HUB) -----------------
-elif menu == "🔥 Executive Termination (Fire System)":
-    st.markdown("<h1 style='color: #ef4444;'>Corporate Termination Core</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #94a3b8; font-size:14px; margin-bottom: 25px;'>Immediate contract settlement, automated severance pay computation, and access revocation.</p>", unsafe_allow_html=True)
+# ----------------- VIEW 2: PERFORMANCE & EXIT HUB -----------------
+elif menu == "🔥 Performance & Exit Hub":
+    st.markdown("<h1 style='color: #ffffff;'>Performance Audits & Exit Operations</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #94a3b8; font-size:14px; margin-bottom: 20px;'>Manage operational workforce evaluations and offboarding parameters.</p>", unsafe_allow_html=True)
     
-    col_fire1, col_fire2 = st.columns([1.4, 1.6])
+    col_perf, col_fire = st.columns([1.5, 1.5])
     
-    with col_fire1:
-        st.markdown("### ⚠️ Execute Offboarding")
+    with col_perf:
+        st.markdown("### 📈 Quality & Performance Evaluations")
         active_emps = df[df['Status'] == 'Active']
         
         if active_emps.empty:
-            st.info("No active workforce profiles detected.")
+            st.info("No active corporate profiles detected.")
         else:
-            with st.form("Termination Core Form"):
-                fire_emp = st.selectbox("Select Target Employee", active_emps['Name'])
-                reason = st.selectbox("Legal Termination Clause", ["Performance Non-Compliance", "Corporate Restructuring", "Policy & Security Violation", "Voluntary Departure"])
-                tenure_months = st.number_input("Total Tenure (Months Served)", min_value=1, value=24)
+            with st.form("Evaluation Form"):
+                eval_emp = st.selectbox("Select Employee to Audit", active_emps['Name'])
+                score = st.selectbox("Overall Rating Assessment", ["Excellent (Top Performer)", "Good (Consistent Status)", "Satisfactory", "Needs Improvement (Critical Warning)"])
                 
-                # صياعة الحساب: حساب مستحقات نهاية الخدمة بدقة (نصف شهر عن كل سنة خدمة)
+                if st.form_submit_button("Commit Performance Audit"):
+                    st.session_state['employees'].loc[st.session_state['employees']['Name'] == eval_emp, 'Performance'] = score
+                    st.success(f"Audit log locked for {eval_emp} as '{score}'.")
+                    st.rerun()
+                    
+        # View to evaluate overall ranking scores
+        st.markdown("<br>#### Audit Scores Preview", unsafe_allow_html=True)
+        st.dataframe(df[df['Status']=='Active'][['Name', 'Dept', 'Performance']], use_container_width=True, hide_index=True)
+
+    with col_fire:
+        st.markdown("### 🚨 Emergency Termination Engine (Fire System)")
+        if active_emps.empty:
+            st.info("Workforce ledger cleared of active parameters.")
+        else:
+            with st.form("Termination Node Form"):
+                fire_emp = st.selectbox("Target Profile for Discharge", active_emps['Name'])
+                clause = st.selectbox("Termination Legal Clause", ["Breach of Corporate Protocol", "Performance Deficit", "Downsizing Strategy", "Voluntary Resignation"])
+                tenure_months = st.number_input("Operational Tenure (Total Months)", min_value=1, value=12)
+                
+                # Severance Math Formula: (Base Salary / 2) * (Years served)
                 base_sal = df[df['Name'] == fire_emp]['Base Salary'].values[0]
                 severance_package = (base_sal / 2) * (tenure_months / 12)
                 
-                st.markdown(f"<p style='color: #ef4444; font-weight: bold; font-size: 16px;'>Computed Severance Package: ${severance_package:,.2f}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='color: #ef4444; font-weight: bold; font-size: 15px;'>Calculated Corporate Severance: ${severance_package:,.2f}</p>", unsafe_allow_html=True)
                 
-                # زرار الإعدام الوظيفي بالـ Red Neon Style
-                execute = st.form_submit_button("🚨 Terminate Employee & Revoke Access")
+                # Glowing Crimson Execution Button
+                execute_fire = st.form_submit_button("🚨 Execute Termination & Revoke System Access")
                 
-                if execute:
-                    # تحديث الحالة وحفظ الحساب المالي
+                if execute_fire:
                     st.session_state['employees'].loc[st.session_state['employees']['Name'] == fire_emp, 'Status'] = 'Terminated'
+                    # Set final settlement payout
                     st.session_state['employees'].loc[st.session_state['employees']['Name'] == fire_emp, 'Base Salary'] = severance_package
-                    st.error(f"Access Revoked. {fire_emp} has been moved to offboarded archive with a final settlement of ${severance_package:,.2f}.")
+                    st.session_state['employees'].loc[st.session_state['employees']['Name'] == fire_emp, 'Bonus'] = 0.0
+                    st.session_state['employees'].loc[st.session_state['employees']['Name'] == fire_emp, 'Deductions'] = 0.0
+                    st.error(f"Security Alert: System parameters updated. Access revoked for {fire_emp}. Final severance set to ${severance_package:,.2f}.")
                     st.rerun()
-
-    with col_fire2:
-        st.markdown("### 📂 Offboarded Audit Trail (الموظفين المفصولين)")
+                    
+        st.markdown("<br>#### Historical Discharge Logs", unsafe_allow_html=True)
         terminated_df = df[df['Status'] == 'Terminated']
         if terminated_df.empty:
-            st.info("No active termination protocols recorded in this cycle.")
+            st.info("No corporate exit files currently logged.")
         else:
-            st.dataframe(terminated_df[['ID', 'Name', 'Dept', 'Status']], use_container_width=True, hide_index=True)
+            st.dataframe(terminated_df[['ID', 'Name', 'Dept', 'Status', 'Base Salary']], use_container_width=True, hide_index=True)
 
-# زرار تسجيل الخروج الفاخر
+# 5. Session Exit Vector
 st.sidebar.markdown("---")
-if st.sidebar.button("🔒 Terminate Session"):
+if st.sidebar.button("🔒 Terminate Core Session"):
     st.session_state['authenticated'] = False
     st.rerun()
